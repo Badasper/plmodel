@@ -1,4 +1,3 @@
-from payload.rf_signal import RadioSignal
 import networkx as nx
 import matplotlib.pyplot as plt
 
@@ -75,23 +74,8 @@ G.add_edge('VT1/3', 'out', weight=2)
 
 ans = nx.all_simple_paths(G, 'WLNA1/1', 'out')
 print(list(ans))
-# with open('node.txt', 'w') as f:
-#     for item in ans:
-#         f.writelines(str(item) + '\n')
-# for item in ans:
-#     rf = RadioSignal('test',
-#                      center_frequency=5725 + 500,
-#                      bandwidth=36,
-#                      units='MHz')
-#     rf.set_power(-10, units='dBm')
-#     rf.append_trace(source='Test_generator')
-#     chain_glue(db, item, rf)
-#     print('*' * 50, rf.get_label(), sep='\n')
-#     print(item)
-#     print(rf, 'Power=', rf.get_power(units='dBm'), 'dBm')
 
 pos = nx.spring_layout(G, k=3, pos=None, fixed=None, iterations=50, weight='weight',
                        scale=10, center=None, dim=2)
-# pos = nx.nx_pydot.pydot_layout(G, prog='dot')
 nx.draw(G, with_labels=True, font_size=4, pos=pos)
 plt.show()

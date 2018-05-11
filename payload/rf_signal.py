@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-from units_tool.units import Frequency, PowerLog
+from units import Frequency, PowerLog
 
 
 class RadioSignal:

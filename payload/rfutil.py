@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Fri May 11 16:32:18 2018
-
-@author: Яковлев
+@author: Yakovlev Alexander
 """
 
 import numpy as np
@@ -28,7 +27,7 @@ def convert_deg_to_rad(degree):
     return degree * np.pi / 180
 
 
-def interpolate_log_x(xp, yp, num):
+def interpolate_log_xp(xp, yp, num):
     if not (xp or yp):
         return np.array([]), np.array([])
     xp = to_db(np.array(xp))
@@ -42,5 +41,33 @@ def calc_rms_rad(freq, dbc, fstart=None, fstop=None,):
 
 
 def calc_interp_rms_rad(freq, dbc, num):
-    freq_interp, dbc_interp = interpolate_log_x(freq, dbc, num)
+    freq_interp, dbc_interp = interpolate_log_xp(freq, dbc, num)
     return calc_rms_rad(freq_interp, dbc_interp)
+
+
+def dbm_to_dbw(value):
+    return value - 30
+
+
+def dbw_to_dbm(value):
+    return value + 30
+
+
+def dbm_to_watt(value):
+    return 10 ** (dbm_to_dbw(value) / 10)
+
+
+def dbw_to_watt(value):
+    return 10 ** (value / 10)
+
+
+def watt_to_dbm(value):
+    if value <= 0:
+        raise ValueError("Power <= 0 W")
+    return dbw_to_dbm(10 * np.log10(value))
+
+
+def watt_to_dbw(value):
+    if value <= 0:
+        raise ValueError("Power <= 0 W")
+    return 10 * np.log10(value)

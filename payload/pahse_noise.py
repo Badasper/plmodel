@@ -5,8 +5,8 @@ Created on Fri May 11 16:32:18 2018
 """
 
 from .rfutil import calc_rms_rad,\
-                         calc_interp_rms_rad,\
-                         convert_rad_to_deg
+                    calc_interp_rms_rad,\
+                    convert_rad_to_deg
 
 
 __version__ = '1.0'

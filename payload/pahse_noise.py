@@ -1,4 +1,4 @@
-from .rf_utilites import calc_rms_rad,\
+from .rfutil import calc_rms_rad,\
                          calc_interp_rms_rad,\
                          convert_rad_to_deg
 

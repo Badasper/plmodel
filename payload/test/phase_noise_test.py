@@ -1,5 +1,5 @@
 import os
-from ..experimental.pahse_noise import PhaseNoise
+from pahse_noise import PhaseNoise
 
 
 class TestCasePhaseNoise:

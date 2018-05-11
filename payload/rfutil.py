@@ -1,4 +1,15 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri May 11 16:32:18 2018
+
+@author: Яковлев
+"""
+
 import numpy as np
+
+
+__version__ = '1.0'
+__author__ = 'Yakovlev Alexander'
 
 
 def to_db(value):

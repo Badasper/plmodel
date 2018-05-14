@@ -61,13 +61,30 @@ def dbw_to_watt(value):
     return 10 ** (value / 10)
 
 
-def watt_to_dbm(value):
-    if value <= 0:
+def watt_to_dbm(watt):
+    if watt <= 0:
         raise ValueError("Power <= 0 W")
-    return dbw_to_dbm(10 * np.log10(value))
+    return dbw_to_dbm(10 * np.log10(watt))
 
 
-def watt_to_dbw(value):
-    if value <= 0:
+def watt_to_dbw(watt):
+    """
+    Convert Watt to dBw 10*log10(Power_in_watt)
+    :param watt: float
+    :return: float
+    """
+    if watt <= 0:
         raise ValueError("Power <= 0 W")
-    return 10 * np.log10(value)
+    return 10 * np.log10(watt)
+
+
+def rss(data=None):
+    """
+    :param data: iterable (lst, tuple, ndarray)
+    :return: ndarray, root sum of the squares:
+    """
+    if data is None:
+        data = np.array([])
+    squares = np.square(np.array(data))
+    sum_square = squares.sum(axis=0)
+    return np.sqrt(sum_square)

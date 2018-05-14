@@ -28,21 +28,42 @@ def convert_deg_to_rad(degree):
 
 
 def interpolate_log_xp(xp, yp, num):
-    if not (xp or yp):
+    if not (xp.any() or yp.any()):
         return np.array([]), np.array([])
-    xp = to_db(np.array(xp))
+    xp = to_db(xp)
     x_interp = np.linspace(min(xp), max(xp), num=num)
     return from_db(x_interp),  np.interp(x_interp, xp, yp)
 
 
-def calc_rms_rad(freq, dbc, fstart=None, fstop=None,):
-    # TODO edge of integration fstart to fstop
-    return np.sqrt(2 * np.trapz(from_db(dbc), freq))
+def get_nearest(val, arr):
+    return (np.abs(arr - val)).argmin()
 
 
-def calc_interp_rms_rad(freq, dbc, num):
+def get_limited_data_x_y(x, y, limit):
+    x_min = limit[0]
+    x_max = limit[1]
+    idx_min = get_nearest(x_min, x)
+    idx_max = get_nearest(x_max, x)
+    x = x[idx_min:idx_max]
+    y = y[idx_min:idx_max]
+    return x, y
+
+
+def calc_integrated_phase_noise(freq, power_w):
+    return np.sqrt(2 * np.trapz(power_w, freq))
+
+
+def calc_rms_rad(freq, dbc, num=None, limit=None):
+    # TODO create polymorphius func interpolate/data
+    power_w = from_db(dbc)
+    if limit is not None:
+        freq, power_w = get_limited_data_x_y(freq, power_w, limit)
+    return calc_integrated_phase_noise(freq, power_w)
+
+
+def calc_interp_rms_rad(freq, dbc, num, limit=None):
     freq_interp, dbc_interp = interpolate_log_xp(freq, dbc, num)
-    return calc_rms_rad(freq_interp, dbc_interp)
+    return calc_rms_rad(freq_interp, dbc_interp, limit=limit)
 
 
 def dbm_to_dbw(value):
@@ -85,6 +106,6 @@ def rss(data=None):
     """
     if data is None:
         data = np.array([])
-    squares = np.square(np.array(data))
+    squares = np.square(data)
     sum_square = squares.sum(axis=0)
     return np.sqrt(sum_square)

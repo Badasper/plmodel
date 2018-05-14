@@ -10,7 +10,8 @@ class TestCasePhaseNoise:
         dbc = [x-6 for x in phase_noise_spec]
         pn = PhaseNoise(frequency, dbc)
         # TAS technical note is rms = 1.63 deg.
-        assert 1.64 < pn.calc_rms_deg(fstart=10, fstop=10**7) < 1.65
+        assert 1.64 < pn.calc_rms_deg() < 1.65
+        assert 1.08 < pn.calc_rms_deg(limit=[1000, 10 ** 7]) < 1.1
 
         pn_zero = PhaseNoise([], [])
         assert pn_zero.calc_rms_deg() == 0

@@ -1,5 +1,5 @@
 import os
-from ..pahse_noise import PhaseNoise
+from ..pahse_noise import PhaseNoise, ChainPhaseNoise
 
 
 class TestCasePhaseNoise:
@@ -11,8 +11,8 @@ class TestCasePhaseNoise:
         pn = PhaseNoise(frequency, dbc)
         # TAS technical note is rms = 1.63 deg.
         assert 1.64 < pn.calc_rms_deg() < 1.65
-        assert 1.08 < pn.calc_rms_deg(limit=[1000, 10 ** 7]) < 1.1
-
+        limit_integration = [1000, 10 ** 7]
+        assert 1.08 < pn.calc_rms_deg(limit=limit_integration) < 1.1
         pn_zero = PhaseNoise([], [])
         assert pn_zero.calc_rms_deg() == 0
 
@@ -29,3 +29,21 @@ class TestCasePhaseNoise:
         pn_spec = PhaseNoise(freq, dbc_spec)
         assert 0.5 < pn.calc_rms_deg() < 0.51
         assert 1.63 < pn_spec.calc_rms_deg() < 1.64
+
+
+class TestCaseChainPhaseNoise:
+
+    def test_calc_chain_phase_noise(self):
+        frequency1 = [10 ** x for x in range(1, 8)]
+        phase_noise_spec1 = [-38, -66, -78, -87, -93, -95, -115]
+        dbc1 = [x - 6 for x in phase_noise_spec1]
+        frequency2 = [10 ** x for x in range(1, 8)]
+        phase_noise_spec2 = [-38, -66, -78, -87, -93, -95, -115]
+        dbc2 = [x - 6 for x in phase_noise_spec2]
+        pn1 = PhaseNoise(frequency1, dbc1)
+        pn2 = PhaseNoise(frequency2, dbc2)
+
+        ch_pn = ChainPhaseNoise()
+        ch_pn.append(pn1)
+        ch_pn.append(pn2)
+        assert 2.32 < ch_pn.calc_chain_rms_deg() < 2.34

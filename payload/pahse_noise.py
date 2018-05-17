@@ -44,7 +44,6 @@ class PhaseNoise:
 class ChainPhaseNoise(RfChain):
 
     def append(self, pn):
-        print(self._nodes)
         self._nodes.append(pn)
 
     def calc_chain_rms_rad(self, limit=None):

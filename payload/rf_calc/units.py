@@ -4,7 +4,7 @@ Created on Fri May 11 16:32:18 2018
 @author: Yakovlev Alexander
 """
 
-import rfutil
+from rf_calc import rfutil
 
 
 class Units:

@@ -4,7 +4,7 @@ Created on 11/05/18
 @author: Yakovlev Alexander
 """
 
-from rfutil import rss
+from rf_calc.rfutil import rss
 
 
 class FrequencyStability:

@@ -1,5 +1,5 @@
 import os
-from ..pahse_noise import PhaseNoise, ChainPhaseNoise
+from rf_calc.phase_noise import PhaseNoise, ChainPhaseNoise
 
 
 class TestCasePhaseNoise:
@@ -29,6 +29,11 @@ class TestCasePhaseNoise:
         pn_spec = PhaseNoise(freq, dbc_spec)
         assert 0.5 < pn.calc_rms_deg() < 0.51
         assert 1.63 < pn_spec.calc_rms_deg() < 1.64
+
+    def test_eq_ne_phase_noise(self):
+        phase_noise1 = PhaseNoise([10, 100], [-40, -50])
+        phase_noise2 = PhaseNoise([10, 100], [-40, -50])
+        assert phase_noise1 == phase_noise2
 
 
 class TestCaseChainPhaseNoise:

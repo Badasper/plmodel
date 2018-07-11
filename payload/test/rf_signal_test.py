@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from ..rf_signal import RadioSignal
+from model.rf_signal import RadioSignal
+from rf_calc.phase_noise import PhaseNoise
 
 
 class TestCaseRadioSignal:
@@ -11,7 +12,7 @@ class TestCaseRadioSignal:
         rf.append_trace(source='Generator')
         assert rf.get_source() == 'Generator'
         assert rf.get_label() == 'test_cw'
-        assert str(rf) == 'test_cw: CW=1000.0 MHz, BW=10.0 MHz'
+        assert str(rf) == 'test_cw: CF=1000.0 MHz, BW=10.0 MHz'
 
     def test_signal_get_frequency(self):
         rf = RadioSignal('test_cw',
@@ -33,20 +34,23 @@ class TestCaseRadioSignal:
                                'center_frequency': 1000000000.0,
                                'bandwidth': 10000000.0,
                                'power': None,
-                               'phase': 0
+                               'phase': 0,
+                               'phase_noise': PhaseNoise([], [])
                                }, ]
         rf.append_trace(source='The_next_block')
         assert rf.trace() == [{'source': 'Generator',
                                'center_frequency': 1000000000.0,
                                'bandwidth': 10000000.0,
                                'power': None,
-                               'phase': 0
+                               'phase': 0,
+                               'phase_noise': PhaseNoise([], [])
                                },
                               {'source': 'The_next_block',
                                'center_frequency': 1000000000.0,
                                'bandwidth': 10000000.0,
                                'power': None,
-                               'phase': 0
+                               'phase': 0,
+                               'phase_noise': PhaseNoise([], [])
                                }, ]
 
     def test_signal_convert(self):
@@ -76,3 +80,9 @@ class TestCaseRadioSignal:
         rf.append_trace(source='LNA')
         assert rf.get_power(units='dBm') == 0.0
         assert rf.get_power(units='dBW') == -30.0
+
+    def test_signal_phase_noise(self):
+        rf = RadioSignal('test_cw',
+                         center_frequency=1000,
+                         bandwidth=10)
+        rf.add_phase_noise(PhaseNoise([10, 100], [-40, -50]))

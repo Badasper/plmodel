@@ -1,16 +1,13 @@
 # -*- coding: utf-8 -*-
-#
-from units import Frequency, PowerLog
+
+from rf_calc.units import Frequency, PowerLog
+from rf_calc.phase_noise import PhaseNoise
 
 
 class RadioSignal:
 
-    def __init__(self, label, center_frequency=None, bandwidth=None, units='MHz'):
+    def __init__(self, label, center_frequency=0, bandwidth=0, units='MHz'):
         self._label = label
-        if center_frequency is None:
-            self._center_freq = Frequency(0, units=units)
-        if bandwidth is None:
-            self._bandwidth_freq = Frequency(0, units=units)
         self._center_freq = Frequency(center_frequency, units=units)
         self._bandwidth_freq = Frequency(bandwidth, units=units)
         self._source = ''
@@ -18,7 +15,7 @@ class RadioSignal:
         self._power = None
 
     def __str__(self):
-        return '{}: CW={} MHz, BW={} MHz'.format(self.get_label(),
+        return '{}: CF={} MHz, BW={} MHz'.format(self.get_label(),
                                                  self.get_cf_frequency(units='MHz'),
                                                  self.get_bw_frequency(units='MHz'))
 
@@ -50,7 +47,8 @@ class RadioSignal:
                 'center_frequency': self.get_cf_frequency(),
                 'bandwidth': self.get_bw_frequency(),
                 'power': self.get_power(units='dBm'),
-                'phase': 0
+                'phase': 0,
+                'phase_noise': PhaseNoise([], [])
                 }
         self._trace.append(node)
 
@@ -63,3 +61,6 @@ class RadioSignal:
     def apply_gain(self, gain=0):
         prev_power = self.get_power(units='dBm')
         self._power = PowerLog(prev_power + gain, units='dBm')
+
+    def add_phase_noise(self, phase_noise):
+        pass

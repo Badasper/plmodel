@@ -1,0 +1,6 @@
+.idea
+experimental
+.cache
+.coverage*
+__pycache__
+htmlcov

@@ -1,4 +1,7 @@
 .venv
 __py*__
 .cache
+.idea*
+*coverage*
+__pycache__
 *.pyc

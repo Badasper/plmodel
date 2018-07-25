@@ -5,3 +5,4 @@ experimental
 __pycache__
 htmlcov
 *.pyc
+.idea/pl_model.iml

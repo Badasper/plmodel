@@ -1,4 +1,5 @@
 .idea*
+.idea/*
 experimental
 .cache
 .coverage*

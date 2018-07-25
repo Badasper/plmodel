@@ -7,6 +7,9 @@
       <sourceFolder url="file://$MODULE_DIR$/payload/experimental" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/experimental" />
+      <excludeFolder url="file://$MODULE_DIR$/payload/.cache" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -14,6 +14,7 @@ class TestCaseReceiveChannel:
         assert len(ch_lo_bigger.combinations_receive()) == 180
         assert len(ch_lo_bigger.subharmonic_receive()) == 30
         assert len(ch_lo_bigger.equal_nm_receive()) == 20
+        assert len(ch_lo_bigger.get_all_combinations()) == 210
 
         ch_lo_less = ReceiveRFChannel(intermediate_frequency=5,
                                       local_oscillator_frequency=3,

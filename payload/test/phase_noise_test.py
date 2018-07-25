@@ -1,5 +1,5 @@
 import os
-from rf_calc.phase_noise import PhaseNoise, ChainPhaseNoise
+from model.phase_noise import PhaseNoise, ChainPhaseNoise
 
 
 class TestCasePhaseNoise:

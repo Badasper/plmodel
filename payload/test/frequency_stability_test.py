@@ -1,4 +1,4 @@
-from rf_calc.frequency_stability import FrequencyStability, ChainFrequencyStability
+from model.frequency_stability import FrequencyStability, ChainFrequencyStability
 
 
 class TestCaseFrequencyStability:

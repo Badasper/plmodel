@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from rf_calc.units import Frequency, PowerLog
-from rf_calc.phase_noise import PhaseNoise
+from model.phase_noise import PhaseNoise
 
 
 class RadioSignal:

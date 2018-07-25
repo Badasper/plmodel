@@ -12,6 +12,10 @@ __author__ = "Yakovlev AY"
 __version__ = '1.0'
 
 
+def is_equal_nm(item, key1='nLO', key2='mRF'):
+    return abs(item[key1]) == abs(item[key2])
+
+
 class MainImageReceiveCombination:
 
     def __init__(self, intermediate_frequency, local_oscillator_frequency):
@@ -45,31 +49,28 @@ class MainImageReceiveCombination:
 class ReceiveRFChannel:
 
     def __init__(self,
-                 intermediate_frequency,
-                 bandwidth_channel,
-                 local_oscillator_frequency,
-                 converter_direction='down'):
-
+                 intermediate_frequency=0,
+                 bandwidth_channel=0,
+                 local_oscillator_frequency=0):
         self._if = intermediate_frequency
         self._bw = bandwidth_channel
         self._lo = local_oscillator_frequency
-        self._direction = converter_direction
 
-    def _calc_receive_channel(self, mRF=10, nLO=10):
+    def _calc_receive_channel(self, mRF=1, nLO=1):
         """Расчет комбинации включая отрицательные частоты"""
         n, m = nLO, mRF
         start_frequency = self._if / m - self._bw / (2 * m) - self._lo * n / m
         stop_frequency = self._if / m + self._bw / (2 * m) - self._lo * n / m
         if start_frequency > stop_frequency:
             start_frequency, stop_frequency = stop_frequency, start_frequency
-        receive_channel = {
+        receive_channel_data = {
             'start': start_frequency,
             'stop': stop_frequency,
             'center': (stop_frequency - start_frequency) / 2 + start_frequency,
             'nLO': n,
             'mRF': m
         }
-        return receive_channel
+        return receive_channel_data
 
     def get_all_combinations(self, mRF=10, nLO=10):
         """Побочные каналы приема:
@@ -78,22 +79,23 @@ class ReceiveRFChannel:
         mRF_lst = [m for m in range(-mRF, mRF + 1) if m != 0]
         nLO_lst = [n for n in range(-nLO, nLO + 1)]
         combination_lst = [self._calc_receive_channel(m, n) for m in mRF_lst for n in nLO_lst]
-        combinations = filter(lambda x: x['start'] >= 0, combination_lst)
-        return list(combinations)
+        filtered_combinations = filter(lambda x: x['stop'] >= 0, combination_lst)
+        sorted_combinations = sorted(filtered_combinations, key=lambda x: x['start'])
+        return list(sorted_combinations)
 
-    def main_receive(self):
+    def main_receive(self, convert='down'):
         """Основной канал приема Fпрм = IF/m - LO*n/m, где n=1, m=1"""
-        combination = MainImageReceiveCombination(self._if, self._lo).get_main(self._direction)
+        combination = MainImageReceiveCombination(self._if, self._lo).get_main(convert)
         mRF, nLO = combination['mRF'], combination['nLO']
         return self._calc_receive_channel(mRF=mRF, nLO=nLO)
 
-    def image_receive(self):
+    def image_receive(self, convert='down'):
         """Побочный канал приема:
         Зеркальный канал приема,
         Опасен тем, что имеет одинаковый отклик как и основной канал приёма,
         Fз = IF/m - LO*n/m при m, n = (inverse, up:  = (1, -1), down: LO > ПЧ = (-1, 1), LO < ПЧ = (1, 1))
         image_receive()"""
-        combination = MainImageReceiveCombination(self._if, self._lo).get_image(self._direction)
+        combination = MainImageReceiveCombination(self._if, self._lo).get_image(convert)
         mRF, nLO = combination['mRF'], combination['nLO']
         return self._calc_receive_channel(mRF=mRF, nLO=nLO)
 
@@ -105,14 +107,6 @@ class ReceiveRFChannel:
         intermediate_receive()"""
         return self._calc_receive_channel(mRF=1, nLO=0)
 
-    def subharmonic_receive(self, max_order_m=10):
-        """Побочный канал приёма:
-        Канал приёма на субгармонике,
-        Fпкп = IF/m -+ LO*n/m,
-        n=1, m=1...m
-        subharmonic_receive(max_order=m)"""
-        return [item for item in self.get_all_combinations(max_order_m, 1) if item['start'] >= 0]
-
     def combinations_receive(self, mRF=10, nLO=10):
         """Побочный канал приема:
         Комбинационный канал приема,
@@ -120,17 +114,9 @@ class ReceiveRFChannel:
         при остальных m и n
         get_combination_receive(mRF=10, nLO=10)"""
         all_combinations = self.get_all_combinations(mRF=mRF, nLO=nLO)
-        exclude_combinations = []
-        exclude_combinations.append(self.intermediate_receive())
-        exclude_combinations.append(self.image_receive())
-        exclude_combinations.append(self.main_receive())
-        for subharmonic in self.subharmonic_receive(max_order_m=mRF):
-            exclude_combinations.append(subharmonic)
-        combinations_receive = []
-        for combination in all_combinations:
-            if combination not in exclude_combinations:
-                combinations_receive.append(combination)
-        return combinations_receive
+        exclude_combinations = [self.intermediate_receive(), self.image_receive(), self.main_receive()]
+        combinations_receive = filter(lambda x: x not in exclude_combinations, all_combinations)
+        return list(combinations_receive)
 
     def equal_nm_receive(self, mRF=10, nLO=10):
         """Побочный канал приема:
@@ -139,8 +125,9 @@ class ReceiveRFChannel:
         Fпкп = IF/m -+ LO*n/m,
         при m=n
         equal_nm_receive(mRF=10, nLO=10)"""
-        equal_nm_receive_channels = []
-        for item in self.get_all_combinations(mRF=mRF, nLO=nLO):
-            if abs(item['nLO']) == abs(item['mRF']):
-                equal_nm_receive_channels.append(item)
-        return equal_nm_receive_channels
+        all_combinations = self.get_all_combinations(mRF=mRF, nLO=nLO)
+        equal_nm_receive_channels = filter(lambda x: is_equal_nm(x), all_combinations)
+        return list(equal_nm_receive_channels)
+
+    def get_lo_harmonics(self, nLO=10):
+        return {'{}HLO'.format(n): self._lo * n for n in range(1, nLO + 1)}

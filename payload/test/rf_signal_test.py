@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from model.rf_signal import RadioSignal
-from rf_calc.phase_noise import PhaseNoise
+from model.phase_noise import PhaseNoise
 
 
 class TestCaseRadioSignal:

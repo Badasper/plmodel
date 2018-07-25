@@ -1,9 +1,5 @@
 .idea*
-experimental
 .cache
-.coverage*
+*coverage*
 __pycache__
-htmlcov
-coverage*
 *.pyc
-.idea/pl_model.iml

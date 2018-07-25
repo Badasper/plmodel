@@ -5,9 +5,9 @@ class TestCaseReceiveChannel:
 
     def test_down_convert_channel(self):
         ch_lo_bigger = ReceiveRFChannel(intermediate_frequency=5,
-                                       local_oscillator_frequency=8,
-                                       bandwidth_channel=1,
-                                       converter_direction='down')
+                                        local_oscillator_frequency=8,
+                                        bandwidth_channel=1,
+                                        converter_direction='down')
         assert ch_lo_bigger.main_receive()['center'] == 13
         assert ch_lo_bigger.image_receive()['center'] == 3
         assert ch_lo_bigger.intermediate_receive()['center'] == 5
@@ -16,12 +16,17 @@ class TestCaseReceiveChannel:
         assert len(ch_lo_bigger.equal_nm_receive()) == 20
 
         ch_lo_less = ReceiveRFChannel(intermediate_frequency=5,
-                                     local_oscillator_frequency=3,
-                                     bandwidth_channel=1,
-                                     converter_direction='down')
+                                      local_oscillator_frequency=3,
+                                      bandwidth_channel=2,
+                                      converter_direction='down')
+        assert ch_lo_less.main_receive()['center'] == 8
+        assert ch_lo_less.image_receive()['center'] == 2
 
-        assert ch_lo_less.main_receive()['start'] == 7.5
-        assert ch_lo_less.image_receive()['start'] == 1.5
+        ch = ReceiveRFChannel(intermediate_frequency=1,
+                              local_oscillator_frequency=9,
+                              bandwidth_channel=4,
+                              converter_direction='down')
+        print('\n', ch.image_receive(), '\n', ch.main_receive(), '\n', ch.intermediate_receive())
 
     def test_error_channel(self):
         ch = ReceiveRFChannel(intermediate_frequency=5,

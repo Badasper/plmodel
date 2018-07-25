@@ -4,3 +4,4 @@ experimental
 .coverage*
 __pycache__
 htmlcov
+*.pyc

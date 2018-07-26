@@ -6,7 +6,6 @@ Created on Fri May 11 16:32:18 2018
 
 import numpy as np
 
-
 __version__ = '1.0'
 __author__ = 'Yakovlev Alexander'
 
@@ -17,11 +16,11 @@ def get_rfvalue(name):
     constants = {
         'pi': np.pi,
         'boltsman': 1.23 * 10**-23,
-        'c': 3*10**8,
+        'c': 3 * 10**8,
     }
     wiki = {
-        "Earth_Radius": 6371 * 10 ** 3,
-        "GEO_Radius": 42165 * 10 ** 3,
+        "Earth_Radius": 6371 * 10**3,
+        "GEO_Radius": 42165 * 10**3,
     }
     value = constants.get(name, '')
     if value:
@@ -88,7 +87,7 @@ def eirp(power_w, antenna_gain):
 
 def free_space_loss(distance):
     """return negative value of loss on distance in dB"""
-    return to_db(1 / (4 * np.pi * distance ** 2))
+    return to_db(1 / (4 * np.pi * distance**2))
 
 
 def pfd(eirp_tx, distance):
@@ -109,7 +108,7 @@ def interpolate_log_xp(xp, yp, num):
         return np.array([]), np.array([])
     xp = to_db(xp)
     x_interp = np.linspace(xp.min(), xp.max(), num=num)
-    return from_db(x_interp),  np.interp(x_interp, xp, yp)
+    return from_db(x_interp), np.interp(x_interp, xp, yp)
 
 
 def get_nearest_idx(value, array):

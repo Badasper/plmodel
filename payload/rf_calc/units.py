@@ -4,7 +4,7 @@ Created on Fri May 11 16:32:18 2018
 @author: Yakovlev Alexander
 """
 
-from rf_calc import rfutil
+from payload.rf_calc import rfutil
 
 
 class Units:
@@ -29,14 +29,14 @@ class Units:
     def _get_dict_of_units(self):
         return {
             self.main_units: 1,
-            "p" + self.main_units: 10 ** -12,
-            "n" + self.main_units: 10 ** -9,
-            "u" + self.main_units: 10 ** -6,
-            "m" + self.main_units: 10 ** -3,
-            "k" + self.main_units: 10 ** 3,
-            "M" + self.main_units: 10 ** 6,
-            "G" + self.main_units: 10 ** 9,
-            "T" + self.main_units: 10 ** 12
+            "p" + self.main_units: 10**-12,
+            "n" + self.main_units: 10**-9,
+            "u" + self.main_units: 10**-6,
+            "m" + self.main_units: 10**-3,
+            "k" + self.main_units: 10**3,
+            "M" + self.main_units: 10**6,
+            "G" + self.main_units: 10**9,
+            "T" + self.main_units: 10**12
         }
 
     def _get_coefficient(self, units=None):
@@ -88,10 +88,7 @@ class PowerLog(Power):
 
     def _get_dict_of_units(self):
         dict_out = super()._get_dict_of_units()
-        dict_out.update({
-            "dBm": lambda x: x,
-            "dBW": rfutil.dbm_to_dbw
-        })
+        dict_out.update({"dBm": lambda x: x, "dBW": rfutil.dbm_to_dbw})
         self.main_units = "dBm"
         return dict_out
 

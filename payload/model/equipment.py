@@ -6,7 +6,6 @@ Created on 10/07/18
 
 
 class Equipment:
-
     def __init__(self, pos_name):
         self._pos_name = pos_name
 

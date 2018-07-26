@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-Created on 
+Created on
 @author: Yakovlev Alexander
 """
+import sys
+sys.path.append('../')
 
 from payload.model.receive_channel import ReceiveRFChannel
-
 
 def format_data(elem):
     data = elem['start'], elem['stop'], elem['center'], elem['nLO'], elem['mRF']

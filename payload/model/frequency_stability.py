@@ -4,11 +4,10 @@ Created on 11/05/18
 @author: Yakovlev Alexander
 """
 
-from rf_calc.rfutil import rss
+from payload.rf_calc.rfutil import rss
 
 
 class FrequencyStability:
-
     def __init__(self, LO, ppm):
         self._lo = LO
         self._ppm = ppm
@@ -18,7 +17,6 @@ class FrequencyStability:
 
 
 class ChainFrequencyStability:
-
     def __init__(self, frequency_stability_lst=None):
         if frequency_stability_lst is None:
             frequency_stability_lst = []

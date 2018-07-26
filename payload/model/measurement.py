@@ -3,7 +3,7 @@
 Created on 10/07/18
 @author: Yakovlev Alexander
 """
-from rf_calc.rfutil import get_interpolated_data
+from payload.rf_calc.rfutil import get_interpolated_data
 
 
 class BaseMeasurement:

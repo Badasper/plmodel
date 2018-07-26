@@ -8,6 +8,11 @@ numpy = "*"
 pandas = "*"
 
 [dev-packages]
+pylint = "*"
+"flake8" = "*"
+"autopep8" = "*"
+yapf = "*"
+"pep8" = "*"
 
 [requires]
 python_version = "3.6"

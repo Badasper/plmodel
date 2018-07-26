@@ -6,11 +6,10 @@ Created on Fri May 11 16:32:18 2018
 
 import numpy as np
 
-from rf_calc.rfutil import calc_rms_rad,\
-                    calc_interp_rms_rad,\
-                    rad_to_deg,\
-                    rss
-
+from payload.rf_calc.rfutil import calc_rms_rad,\
+    calc_interp_rms_rad,\
+    rad_to_deg,\
+    rss
 
 __version__ = '1.0'
 __author__ = 'Yakovlev Alexander'
@@ -34,7 +33,8 @@ class PhaseNoise:
         return 'frequency={}, dbc={}'.format(freq, dbc)
 
     def __eq__(self, other):
-        frequency_equal = np.array_equal(self.get_frequency_array(), other.get_frequency_array())
+        frequency_equal = np.array_equal(self.get_frequency_array(),
+                                         other.get_frequency_array())
         dbc_equal = np.array_equal(self.get_dbc_array(), other.get_dbc_array())
         return frequency_equal and dbc_equal
 
@@ -47,7 +47,8 @@ class PhaseNoise:
     def calc_rms_rad(self, limit=None):
         if len(self._frequency) > self.points_for_integrate:
             return calc_rms_rad(self._frequency, self._dbc, limit=limit)
-        return calc_interp_rms_rad(self._frequency, self._dbc, self.points_for_integrate, limit=limit)
+        return calc_interp_rms_rad(
+            self._frequency, self._dbc, self.points_for_integrate, limit=limit)
 
     def calc_rms_deg(self, limit=None):
         rms_rad = self.calc_rms_rad(limit=limit)
@@ -61,7 +62,6 @@ class PhaseNoise:
 
 
 class ChainPhaseNoise(RfChain):
-
     def append(self, pn):
         self._nodes.append(pn)
 

@@ -8,7 +8,7 @@ Created on 11/07/18
 # TODO query to data base:
 def get_data_from_db(param, param2):
     data = {'x': [], 'y': []}
-    filepath = 'd:/proj/pyprojects/pl_model/payload/test/__fixtures__/GF_WF1.txt'
+    filepath = '../test/__fixtures__/GF_WF1.txt'
     with open(filepath, 'r') as f:
         for line in f.readlines():
             point = line.split()

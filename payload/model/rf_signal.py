@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from rf_calc.units import Frequency, PowerLog
-from model.phase_noise import PhaseNoise
+from payload.rf_calc.units import Frequency, PowerLog
+from payload.model.phase_noise import PhaseNoise
 
 
 class RadioSignal:
-
     def __init__(self, label, center_frequency=0, bandwidth=0, units='MHz'):
         self._label = label
         self._center_freq = Frequency(center_frequency, units=units)
@@ -15,9 +14,10 @@ class RadioSignal:
         self._power = None
 
     def __str__(self):
-        return '{}: CF={} MHz, BW={} MHz'.format(self.get_label(),
-                                                 self.get_cf_frequency(units='MHz'),
-                                                 self.get_bw_frequency(units='MHz'))
+        return '{}: CF={} MHz, BW={} MHz'.format(
+            self.get_label(),
+            self.get_cf_frequency(units='MHz'),
+            self.get_bw_frequency(units='MHz'))
 
     def _set_source(self, source):
         self._source = source
@@ -43,20 +43,22 @@ class RadioSignal:
 
     def append_trace(self, *, source):
         self._set_source(source)
-        node = {'source': self.get_source(),
-                'center_frequency': self.get_cf_frequency(),
-                'bandwidth': self.get_bw_frequency(),
-                'power': self.get_power(units='dBm'),
-                'phase': 0,
-                'phase_noise': PhaseNoise([], [])
-                }
+        node = {
+            'source': self.get_source(),
+            'center_frequency': self.get_cf_frequency(),
+            'bandwidth': self.get_bw_frequency(),
+            'power': self.get_power(units='dBm'),
+            'phase': 0,
+            'phase_noise': PhaseNoise([], [])
+        }
         self._trace.append(node)
 
     def trace(self):
         return self._trace
 
     def convert_frequency(self, *, local_oscillator_freq, units='MHz'):
-        self._center_freq = Frequency(local_oscillator_freq, units=units) + self._center_freq
+        self._center_freq = Frequency(
+            local_oscillator_freq, units=units) + self._center_freq
 
     def apply_gain(self, gain=0):
         prev_power = self.get_power(units='dBm')

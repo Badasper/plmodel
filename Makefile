@@ -6,4 +6,11 @@ watch:
 test:
 	ptw -c --verbose -- --verbose --cov-config .coveragerc --cov=${dir}
 
+cleanproject:
+	rm -rf `find -name "__pycache__"`
+	rm -rf `find -name "*.pyc"`
+	rm -rf `find -name "*cache"`
+	rm -rf `find -name "*.coverage"`
+	rm -rf `find -name "*.coverage.*"`
+
 .PHONY: test

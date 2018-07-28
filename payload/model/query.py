@@ -3,12 +3,13 @@
 Created on 11/07/18
 @author: Yakovlev Alexander
 """
+import os
 
 
 # TODO query to data base:
 def get_data_from_db(param, param2):
     data = {'x': [], 'y': []}
-    filepath = '../test/__fixtures__/GF_WF1.txt'
+    filepath = os.getcwd() + '/payload/test/__fixtures__/GF_WF1.txt'
     with open(filepath, 'r') as f:
         for line in f.readlines():
             point = line.split()

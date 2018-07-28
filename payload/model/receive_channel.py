@@ -67,15 +67,25 @@ class MainImageReceiveCombination:
 
 
 class ReceiveRFChannel:
-    def __init__(
-            self,
-            intermediate_frequency=0,
-            bandwidth_channel=0,
-            local_oscillator_frequency=0,
-    ):
+    def __init__(self,
+                 intermediate_frequency=0,
+                 bandwidth_channel=0,
+                 local_oscillator_frequency=0,
+                 direction=None):
         self._if = intermediate_frequency
         self._bw = bandwidth_channel
         self._lo = local_oscillator_frequency
+        self._direction = direction
+
+    @classmethod
+    def rx(cls, rx_frequency=0, tx_frequency=0, bandwidth_channel=0):
+        local_oscillator_frequency = abs(rx_frequency - tx_frequency)
+        direction = 'up' if rx_frequency < tx_frequency else 'down'
+        return cls(
+            intermediate_frequency=tx_frequency,
+            local_oscillator_frequency=local_oscillator_frequency,
+            bandwidth_channel=bandwidth_channel,
+            direction=direction)
 
     def _calc_receive_channel(self, mRF=1, nLO=1):
         """Расчет комбинации включая отрицательные частоты"""
@@ -110,6 +120,8 @@ class ReceiveRFChannel:
 
     def main_receive(self, convert="down"):
         """Основной канал приема Fпрм = IF/m - LO*n/m, где n=1, m=1"""
+        if self._direction:
+            convert = self._direction
         combination = MainImageReceiveCombination(self._if,
                                                   self._lo).get_main(convert)
         mRF, nLO = combination["mRF"], combination["nLO"]
@@ -122,6 +134,8 @@ class ReceiveRFChannel:
         Fз = IF/m - LO*n/m при m, n = (inverse, up:  = (1, -1),
         down: LO > ПЧ = (-1, 1), LO < ПЧ = (1, 1))
         image_receive()"""
+        if self._direction:
+            convert = self._direction
         combination = MainImageReceiveCombination(self._if,
                                                   self._lo).get_image(convert)
         mRF, nLO = combination["mRF"], combination["nLO"]
@@ -165,3 +179,6 @@ class ReceiveRFChannel:
 
     def get_lo_harmonics(self, nLO=10):
         return {"{}HLO".format(n): self._lo * n for n in range(1, nLO + 1)}
+
+    def converter_direction(self):
+        return self._direction

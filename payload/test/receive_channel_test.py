@@ -1,12 +1,12 @@
-from model.receive_channel import ReceiveRFChannel
+from payload.model.receive_channel import ReceiveRFChannel
 
 
 class TestCaseReceiveChannel:
-
     def test_down_convert_channel(self):
-        ch_lo_bigger = ReceiveRFChannel(intermediate_frequency=5,
-                                        local_oscillator_frequency=8,
-                                        bandwidth_channel=1)
+        ch_lo_bigger = ReceiveRFChannel(
+            intermediate_frequency=5,
+            local_oscillator_frequency=8,
+            bandwidth_channel=1)
         assert ch_lo_bigger.main_receive(convert='down')['center'] == 13
         assert ch_lo_bigger.image_receive(convert='down')['center'] == 3
         assert ch_lo_bigger.intermediate_receive()['center'] == 5
@@ -16,16 +16,18 @@ class TestCaseReceiveChannel:
         assert len(ch_lo_bigger.equal_nm_receive()) == 20
         assert len(ch_lo_bigger.get_all_combinations()) == 210
 
-        ch_lo_less = ReceiveRFChannel(intermediate_frequency=5,
-                                      local_oscillator_frequency=3,
-                                      bandwidth_channel=2)
+        ch_lo_less = ReceiveRFChannel(
+            intermediate_frequency=5,
+            local_oscillator_frequency=3,
+            bandwidth_channel=2)
         assert ch_lo_less.main_receive(convert='down')['center'] == 8
         assert ch_lo_less.image_receive(convert='down')['center'] == 2
 
     def test_error_channel(self):
-        ch = ReceiveRFChannel(intermediate_frequency=5,
-                              local_oscillator_frequency=3,
-                              bandwidth_channel=1)
+        ch = ReceiveRFChannel(
+            intermediate_frequency=5,
+            local_oscillator_frequency=3,
+            bandwidth_channel=1)
         try:
             ch.main_receive(convert='next')
         except ValueError:
@@ -36,24 +38,37 @@ class TestCaseReceiveChannel:
             pass
 
     def test_up_convert_channel(self):
-        ch = ReceiveRFChannel(intermediate_frequency=10,
-                              local_oscillator_frequency=3,
-                              bandwidth_channel=1)
+        ch = ReceiveRFChannel(
+            intermediate_frequency=10,
+            local_oscillator_frequency=3,
+            bandwidth_channel=1)
 
         assert ch.image_receive(convert='up')['center'] == 13
         assert ch.main_receive(convert='up')['center'] == 7
 
     def test_inverse_channel(self):
-        ch = ReceiveRFChannel(intermediate_frequency=6,
-                              local_oscillator_frequency=8,
-                              bandwidth_channel=1)
+        ch = ReceiveRFChannel(
+            intermediate_frequency=6,
+            local_oscillator_frequency=8,
+            bandwidth_channel=1)
 
         assert ch.main_receive(convert='inverse')['center'] == 2
         assert ch.image_receive(convert='inverse')['center'] == 14
 
     def test_lo_harmonics(self):
-        ch = ReceiveRFChannel(intermediate_frequency=10,
-                              local_oscillator_frequency=3,
-                              bandwidth_channel=1)
+        ch = ReceiveRFChannel(
+            intermediate_frequency=10,
+            local_oscillator_frequency=3,
+            bandwidth_channel=1)
         lo_harm = ch.get_lo_harmonics()
         assert lo_harm['3HLO'] == 9
+
+
+class TestCaseReceiveChannelInputRFConstructot:
+    ch = ReceiveRFChannel.rx(
+        rx_frequency=5, tx_frequency=8, bandwidth_channel=1)
+
+    assert ch.converter_direction() == 'up'
+    assert ch.image_receive()['center'] == 11
+    assert ch.main_receive()['center'] == 5
+    assert ch.intermediate_receive()['center'] == 8

@@ -1,10 +1,9 @@
-from model.equipment import Equipment
-from model.condition import Condition
-from model.query import QueryData
+from payload.model.equipment import Equipment
+from payload.model.condition import Condition
+from payload.model.query import QueryData
 
 
 class TestCaseEquipment:
-
     def test_get_data(self):
         equip = Equipment('WF1')
         condition = Condition(25, 'amb')

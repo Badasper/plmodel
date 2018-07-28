@@ -4,18 +4,16 @@ Created on 17/05/18
 @author: Yakovlev Alexander
 """
 
-from rf_calc import rfutil as rf
+from payload.rf_calc import rfutil as rf
 
 
 class TestCaseBaseTools:
-
     def test_base_tools(self):
-        assert rf.hz_to_m(5*10**9) == 0.06
-        assert rf.m_to_hz(0.06) == 5*10**9
+        assert rf.hz_to_m(5 * 10**9) == 0.06
+        assert rf.m_to_hz(0.06) == 5 * 10**9
 
 
 class TestCaseLogTools:
-
     def test_log_tools(self):
         assert rf.from_db(10) == 10
         assert rf.to_db(10) == 10
@@ -28,7 +26,6 @@ class TestCaseLogTools:
 
 
 class TestCaseRadioLinkTools:
-
     def test_radiolink_tools(self):
         assert rf.eirp(10, 10) == 20
         assert -154 < rf.pfd(10, 42000000) < -153
@@ -37,5 +34,5 @@ class TestCaseRadioLinkTools:
         gain_tx = 20
         eirp_tx = rf.eirp(power_w, gain_tx)
         pfd_user = rf.pfd(eirp_tx, 42000000)
-        gain_at_frequency = (38.8, 5.725*10**9)
+        gain_at_frequency = (38.8, 5.725 * 10**9)
         assert -132 < rf.power_rx(pfd_user, gain_at_frequency) < -131

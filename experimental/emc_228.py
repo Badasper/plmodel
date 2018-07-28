@@ -8,8 +8,10 @@ sys.path.append('../')
 
 from payload.model.receive_channel import ReceiveRFChannel
 
+
 def format_data(elem):
-    data = elem['start'], elem['stop'], elem['center'], elem['nLO'], elem['mRF']
+    data = elem['start'], elem['stop'], elem['center'], elem['nLO'], elem[
+        'mRF']
     formatting_str = '{:>8.2f} -- {:>8.2f} :: fc = {:8.2f}  nLO={:>3}, mLO={:>3}'
     return formatting_str.format(*data)
 
@@ -29,17 +31,13 @@ def pretty_receive_channels(channel, lower, upper):
     print(format_data(item))
 
 
-speed_link = {'receive': 0,
-              'transmit': 20000}
+speed_link = {'receive': 0, 'transmit': 20000}
 
-inter_sat_link_k = {'receive': 37000,
-                    'transmit': 30000}
+inter_sat_link_k = {'receive': 37000, 'transmit': 30000}
 
-inter_sat_link_s = {'receive': 2300,
-                    'transmit': 2100}
+inter_sat_link_s = {'receive': 2300, 'transmit': 2100}
 
-test_link = {'receive': 30000,
-             'transmit': 37000}
+test_link = {'receive': 30000, 'transmit': 37000}
 
 inter_sat_ch = {
     'intermediate_frequency': inter_sat_link_k['transmit'],

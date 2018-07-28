@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 numpy = "*"
 pandas = "*"
-pytest-watch = "*"
 
 [dev-packages]
 pylint = "*"
@@ -14,6 +13,8 @@ pylint = "*"
 "autopep8" = "*"
 yapf = "*"
 "pep8" = "*"
+pytest-watch = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.6"

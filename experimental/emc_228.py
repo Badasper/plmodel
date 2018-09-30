@@ -6,7 +6,7 @@ Created on
 import sys
 sys.path.append('../')
 
-from payload.model.receive_channel import ReceiveRFChannel
+from payload.model.combination_receive import ReceiveRFChannel
 
 
 def format_data(elem):

@@ -1,4 +1,4 @@
-from payload.model.receive_channel import ReceiveRFChannel
+from payload.model.combination_receive import ReceiveRFChannel
 
 
 class TestCaseReceiveChannel:

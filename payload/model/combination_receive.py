@@ -16,6 +16,13 @@ def is_equal_nm(item, key1="nLO", key2="mRF"):
     return abs(item[key1]) == abs(item[key2])
 
 
+def calc_combination(m=1, n=1, low_frequency=0, upper_frequency=0, bw=0):
+    """Расчет комбинации включая отрицательные частоты"""
+    start_frequency = low_frequency / m - bw / (2 * m) - upper_frequency * n / m
+    stop_frequency = low_frequency / m + bw / (2 * m) - upper_frequency * n / m
+    return start_frequency, stop_frequency
+
+
 class MainImageReceiveCombination:
     def __init__(self, intermediate_frequency, local_oscillator_frequency):
         is_lo_bigger = local_oscillator_frequency > intermediate_frequency

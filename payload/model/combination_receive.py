@@ -1,12 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Скрипт для определения частот побочных каналов конвертера
-
-Yakovlev AY 02.12.16
-ver 0.3 modify 18/04/17
-ver 1.0 modify 23/07/8
-
-"""
 
 __author__ = "Yakovlev AY"
 __version__ = "1.0"
@@ -18,9 +10,9 @@ def is_equal_nm(item, key1="nLO", key2="mRF"):
 
 def calc_combination(m=1, n=1, low_frequency=0, upper_frequency=0, bw=0):
     """Расчет комбинации включая отрицательные частоты"""
-    start_frequency = low_frequency / m - bw / (2 * m) - upper_frequency * n / m
-    stop_frequency = low_frequency / m + bw / (2 * m) - upper_frequency * n / m
-    return start_frequency, stop_frequency
+    start_freq = low_frequency / m - bw / (2 * m) - upper_frequency * n / m
+    stop_freq = low_frequency / m + bw / (2 * m) - upper_frequency * n / m
+    return start_freq, stop_freq
 
 
 class MainImageReceiveCombination:

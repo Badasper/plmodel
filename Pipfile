@@ -5,16 +5,12 @@ name = "pypi"
 
 [packages]
 numpy = "*"
-pandas = "*"
+plotly = "*"
 
 [dev-packages]
-pylint = "*"
-"flake8" = "*"
-"autopep8" = "*"
-yapf = "*"
-"pep8" = "*"
 pytest-watch = "*"
 pytest-cov = "*"
+flake8 = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.7"

@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class MeasurementConfig(AppConfig):
+class MeasurementAppConfig(AppConfig):
     name = 'measurement'

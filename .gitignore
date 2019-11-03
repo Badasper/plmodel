@@ -1,10 +1,9 @@
-.venv
 .cache
 .vscode
 .idea*
-*coverage*
 *.pyc
 __pycache__/
+migrations
 
 
 

@@ -12,7 +12,10 @@ django = "*"
 pytest-watch = "*"
 pytest-cov = "*"
 flake8 = "*"
+pylint = "*"
+pylint-django = "*"
 autopep8 = "*"
+wemake-python-styleguide = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.6"

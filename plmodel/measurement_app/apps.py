@@ -2,4 +2,5 @@ from django.apps import AppConfig
 
 
 class MeasurementAppConfig(AppConfig):
-    name = 'measurement'
+    name = 'measurement_app'
+    verbose_name = 'measurement'

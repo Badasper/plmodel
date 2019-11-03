@@ -16,6 +16,7 @@ pylint = "*"
 pylint-django = "*"
 autopep8 = "*"
 wemake-python-styleguide = "*"
+flake8-django = "*"
 
 [requires]
 python_version = "3.6"
